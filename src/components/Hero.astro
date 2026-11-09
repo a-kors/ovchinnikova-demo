@@ -37,7 +37,7 @@ import CtaGroup from './CtaGroup.astro';
           src={heroImg}
           alt="Анна Овчинникова, психолог, Барнаул"
           widths={[520, 780, 1040]}
-          sizes="(max-width: 1024px) 520px, 440px"
+          sizes="(max-width: 600px) 360px, (max-width: 1024px) 520px, 440px"
           format="webp"
           quality={88}
           loading="eager"
@@ -45,7 +45,7 @@ import CtaGroup from './CtaGroup.astro';
         />
         <div class="badge">
           <span class="badge-top">Консультаций</span>
-          <span class="badge-big">1000+</span>
+          <span class="badge-big">1&nbsp;000+</span>
         </div>
       </div>
     </figure>
@@ -151,7 +151,7 @@ import CtaGroup from './CtaGroup.astro';
   }
   .badge {
     position: absolute;
-    left: -14px;
+    left: 18px;
     bottom: 32px;
     background: #ffffff;
     padding: 16px 32px 18px 32px;
@@ -197,6 +197,11 @@ import CtaGroup from './CtaGroup.astro';
   @media (max-width: 600px) {
     .frame {
       max-width: 360px;
+    }
+  }
+  @media (max-width: 480px) {
+    .ctas > .btn-ghost {
+      display: none;
     }
   }
 </style>
