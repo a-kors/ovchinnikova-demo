@@ -1,0 +1,264 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { master } from '../data/master';
+import videoPoster from '../assets/photos/teaching.jpg';
+
+const imgs = import.meta.glob<{ default: ImageMetadata }>('/src/assets/reviews/*.jpg', { eager: true });
+const reviewItems = Object.entries(imgs)
+  .sort(([a], [b]) => a.localeCompare(b, 'en', { numeric: true }))
+  .map(([, mod], i) => ({ img: mod.default, idx: i }));
+const reviewsPost = 'https://vk.com/wall-237076068_5';
+const videoPost = 'https://vk.com/wall-237076068_4';
+---
+
+<section id="reviews" class="rv">
+  <div class="wrap">
+    <header class="section-head" data-reveal>
+      <span class="section-eyebrow">Отзывы</span>
+      <h2>Что пишут участники практикума.</h2>
+      <p>
+        Сообщения из&nbsp;чата после онлайн-практикума по&nbsp;метафорическому
+        мышлению. Скриншоты как есть, имена скрыты.
+      </p>
+    </header>
+
+    <div class="rv__grid">
+      {reviewItems.map((it, i) => (
+        <a
+          class="rc rc--photo"
+          href={reviewsPost}
+          target="_blank"
+          rel="noopener"
+          data-reveal
+          data-reveal-delay={Math.min((i + 1) * 80, 300)}
+          aria-label={`Отзывы участников, скриншот ${it.idx + 1}`}
+        >
+          <Image
+            src={it.img}
+            alt={`Отзывы участников практикума, скриншот ${it.idx + 1}`}
+            widths={[320, 560]}
+            sizes="(max-width: 560px) 90vw, 360px"
+            format="webp"
+            loading="lazy"
+          />
+        </a>
+      ))}
+
+      <div class="rv__stack">
+        <div class="rc rc--intro" data-reveal>
+          <span class="big">60+</span>
+          <p>человек присоединились к&nbsp;прошлому практикуму. Мне написали десятки сообщений.</p>
+          <blockquote>«Теперь я&nbsp;понимаю, почему доход будто застрял».</blockquote>
+        </div>
+
+        <a class="rc rc--video" href={videoPost} target="_blank" rel="noopener" data-reveal>
+          <div class="rc__poster">
+            <Image
+              src={videoPoster}
+              alt=""
+              widths={[400, 600, 800]}
+              sizes="(max-width: 560px) 90vw, 360px"
+              format="webp"
+              quality={82}
+              loading="lazy"
+              class="rc__poster-img"
+            />
+            <span class="rc__shade" aria-hidden="true"></span>
+            <span class="rc__play" aria-hidden="true">▶</span>
+          </div>
+          <div class="rc__body">
+            <span class="rc__kind">Видео</span>
+            <h3>Что происходит с&nbsp;людьми после обучения песочной терапии</h3>
+            <p class="muted">Смотреть в&nbsp;ВКонтакте →</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .rv {
+    background: var(--bg-soft);
+  }
+  .rv__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    align-items: start;
+  }
+  .rv__stack {
+    display: grid;
+    gap: 16px;
+    align-self: stretch;
+    grid-template-rows: 1fr auto;
+  }
+  .rv__stack .rc--intro {
+    justify-content: center;
+  }
+  .rv__grid .rc {
+    margin: 0;
+  }
+  .rc {
+    display: block;
+    break-inside: avoid;
+    margin: 0 0 16px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow:
+      0 1px 2px rgba(31, 25, 21, 0.05),
+      0 6px 20px rgba(31, 25, 21, 0.06);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .rc:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 2px 4px rgba(31, 25, 21, 0.08),
+      0 18px 32px rgba(31, 25, 21, 0.1);
+  }
+  .rc--photo :global(img) {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .rc__poster {
+    aspect-ratio: 4 / 3;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--ink);
+  }
+  .rc__poster-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+  .rc__shade {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 50% 42%, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.35) 70%),
+      linear-gradient(180deg, rgba(31,25,21,0.15) 0%, rgba(31,25,21,0.55) 100%);
+  }
+  .rc__play {
+    position: relative;
+    z-index: 1;
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.96);
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    padding-left: 4px;
+    box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.45);
+  }
+  .rc__dur {
+    z-index: 1;
+  }
+  .rc__dur {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(0, 0, 0, 0.35);
+    padding: 3px 8px;
+    border-radius: 999px;
+    letter-spacing: 0.04em;
+  }
+  .rc__body {
+    padding: 18px 20px 20px;
+  }
+  .rc__kind {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .rc__body h3 {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    line-height: 1.22;
+    margin: 8px 0 8px;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .muted {
+    color: var(--ink-muted);
+  }
+
+  .rv__footer {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 14px 28px;
+    margin-top: 12px;
+  }
+
+  .rc--intro {
+    padding: 28px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .big {
+    font-family: var(--font-serif);
+    font-size: 54px;
+    line-height: 1;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+  }
+  .rc--intro p {
+    margin: 0;
+    color: var(--ink-muted);
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .rc--intro blockquote {
+    margin: 6px 0 0;
+    padding-left: 14px;
+    border-left: 2px solid var(--accent-line);
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1.35;
+    color: var(--ink);
+  }
+
+  @media (max-width: 960px) {
+    .rv__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .rv__stack {
+      grid-column: 1 / -1;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: auto;
+      align-items: stretch;
+    }
+  }
+  @media (max-width: 560px) {
+    .rv__grid,
+    .rv__stack {
+      grid-template-columns: 1fr;
+    }
+    .rv__stack {
+      grid-template-rows: auto;
+    }
+  }
+</style>
