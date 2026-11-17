@@ -30,7 +30,7 @@ const videoPost = 'https://vk.com/wall-237076068_4';
           href={reviewsPost}
           target="_blank"
           rel="noopener"
-          data-reveal
+          data-reveal="tilt"
           data-reveal-delay={Math.min((i + 1) * 80, 300)}
           aria-label={`Отзывы участников, скриншот ${it.idx + 1}`}
         >
@@ -52,7 +52,7 @@ const videoPost = 'https://vk.com/wall-237076068_4';
           <blockquote>«Теперь я&nbsp;понимаю, почему доход будто застрял».</blockquote>
         </div>
 
-        <a class="rc rc--video" href={videoPost} target="_blank" rel="noopener" data-reveal>
+        <a class="rc rc--video" href={videoPost} target="_blank" rel="noopener" data-reveal="tilt">
           <div class="rc__poster">
             <Image
               src={videoPoster}
